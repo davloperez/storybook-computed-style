@@ -24,8 +24,8 @@ export const withGlobals: DecoratorFunction = (StoryFn, context) => {
       rootElement.removeEventListener("mouseover", handleMouseOver);
       rootElement.removeEventListener("mouseout", handleMouseOut);
       rootElement.removeEventListener("click", handleClick);
-      clearComputedStyles();
     }
+    clearComputedStyles();
   }, [selectingElement]);
 
   const handleClick = (event: MouseEvent) => {
