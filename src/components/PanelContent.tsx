@@ -1,76 +1,43 @@
 import React, { Fragment } from "react";
-import { styled, themes, convert } from "@storybook/theming";
-import { TabsState, Placeholder, Button } from "@storybook/components";
-import { List } from "./List";
-
-export const RequestDataButton = styled(Button)({
-  marginTop: "1rem",
-});
-
-type Results = {
-  danger: any[];
-  warning: any[];
-};
+import { Placeholder } from "@storybook/components";
+import { State } from "../State";
 
 interface PanelContentProps {
-  results: Results;
-  fetchData: () => void;
-  clearData: () => void;
+  state: State;
 }
 
-/**
- * Checkout https://github.com/storybookjs/storybook/blob/next/addons/jest/src/components/Panel.tsx
- * for a real world example
- */
-export const PanelContent: React.FC<PanelContentProps> = ({
-  results,
-  fetchData,
-  clearData,
-}) => (
-  <TabsState
-    initial="overview"
-    backgroundColor={convert(themes.normal).background.hoverable}
-  >
-    <div
-      id="overview"
-      title="Overview"
-      color={convert(themes.normal).color.positive}
-    >
-      <Placeholder>
-        <Fragment>
-          Addons can gather details about how a story is rendered. This is panel
-          uses a tab pattern. Click the button below to fetch data for the other
-          two tabs.
-        </Fragment>
-        <Fragment>
-          <RequestDataButton
-            secondary
-            small
-            onClick={fetchData}
-            style={{ marginRight: 16 }}
-          >
-            Request data
-          </RequestDataButton>
+export const PanelContent = ({ state }: PanelContentProps) => {
+  if (state.item) {
+    return (
+      <div>
+        <div>
+          nodeType: {state.item.nodeName}{" "}
+          {state.item.id && <span>(id: {state.item.id})</span>}
+        </div>
 
-          <RequestDataButton outline small onClick={clearData}>
-            Clear data
-          </RequestDataButton>
-        </Fragment>
+        <table>
+          <thead>
+            <tr>
+              <th>CSS property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(state.computedStyles).map(([key, value]) => (
+              <tr key={key}>
+                <td>{key}</td>
+                <td>{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  } else {
+    return (
+      <Placeholder>
+        <Fragment>Hover any element to see its computed styles.</Fragment>
       </Placeholder>
-    </div>
-    <div
-      id="danger"
-      title={`${results.danger.length} Danger`}
-      color={convert(themes.normal).color.negative}
-    >
-      <List items={results.danger} />
-    </div>
-    <div
-      id="warning"
-      title={`${results.warning.length} Warning`}
-      color={convert(themes.normal).color.warning}
-    >
-      <List items={results.warning} />
-    </div>
-  </TabsState>
-);
+    );
+  }
+};

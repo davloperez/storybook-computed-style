@@ -5,7 +5,5 @@ export const TAB_ID = `${ADDON_ID}/tab`;
 export const PARAM_KEY = `myAddonParameter`;
 
 export const EVENTS = {
-  RESULT: `${ADDON_ID}/result`,
-  REQUEST: `${ADDON_ID}/request`,
-  CLEAR: `${ADDON_ID}/clear`,
+  UPDATE: `${ADDON_ID}/update`,
 };

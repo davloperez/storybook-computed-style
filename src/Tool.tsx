@@ -4,28 +4,32 @@ import { Icons, IconButton } from "@storybook/components";
 import { TOOL_ID } from "./constants";
 
 export const Tool = () => {
-  const [{ myAddon }, updateGlobals] = useGlobals();
+  const [{ selectingElement }, updateGlobals] = useGlobals();
 
-  const toggleMyTool = useCallback(
+  const toggleSelectingElement = useCallback(
     () =>
       updateGlobals({
-        myAddon: myAddon ? undefined : true,
+        selectingElement: selectingElement ? undefined : true,
       }),
-    [myAddon]
+    [selectingElement]
   );
 
   return (
     <IconButton
       key={TOOL_ID}
-      active={myAddon}
-      title="Enable my addon"
-      onClick={toggleMyTool}
+      active={selectingElement}
+      title={
+        selectingElement
+          ? "End selecting elements to show computed styles"
+          : "Select element to show computed styles"
+      }
+      onClick={toggleSelectingElement}
     >
       {/*
         Checkout https://next--storybookjs.netlify.app/official-storybook/?path=/story/basics-icon--labels
         for the full list of icons
       */}
-      <Icons icon="lightning" />
+      <Icons icon={selectingElement ? "eyeclose" : "eye"} />
     </IconButton>
   );
 };
